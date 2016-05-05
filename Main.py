@@ -13,18 +13,26 @@ back = pygame.Surface((640,480))
 background = back.convert()
 background.fill((0,0,0))
 bar = pygame.Surface((10,50))
+goal = pygame.Surface((5,100))
 bar1 = bar.convert()
 bar1.fill((0,0,255))
 bar2 = bar.convert()
 bar2.fill((255,0,0))
+goal1 = goal.convert()
+goal2 = goal.convert()
+goal1.fill((0,255,0))
+goal2.fill((0,255,0))
 circ_sur = pygame.Surface((15,15))
 circ = pygame.draw.circle(circ_sur,(0,255,0),(15/2,15/2),15/2)
 circle = circ_sur.convert()
 circle.set_colorkey((0,0,0))
 
 # some definitions
+RED = (255,0,0)
 bar1_x, bar2_x = 10. , 620.
 bar1_y, bar2_y = 215. , 215.
+goal1_x,goal2_x = 5. , 630.
+goal1_y,goal2_y = 200. , 200.
 circle_x, circle_y = 307.5, 232.5
 bar1_movex, bar1_movey, bar2_move = 0. , 0. , 0.
 speed_x, speed_y, speed_circ = 250., 250., 250.
@@ -65,8 +73,12 @@ while True:
     screen.blit(background,(0,0))
     frame = pygame.draw.rect(screen,(255,255,255),Rect((5,5),(630,470)),2)
     middle_line = pygame.draw.aaline(screen,(255,255,255),(330,5),(330,475))
+   
+   
     screen.blit(bar1,(bar1_x,bar1_y))
     screen.blit(bar2,(bar2_x,bar2_y))
+    screen.blit(goal1,(goal1_x,goal1_y))
+    screen.blit(goal2,(goal2_x,goal2_y))
     screen.blit(circle,(circle_x,circle_y))
     screen.blit(score1,(250.,210.))
     screen.blit(score2,(380.,210.))
@@ -125,14 +137,18 @@ while True:
         speed_x = -speed_x
         circle_x = bar2_x - 20
         hit = 1
-    if circle_x < 5.:
+    if circle_x < 5.: 
+     if circle_y<=300 and circle_y>=200:
         bar2_score += 1
         circle_x, circle_y = 320., 232.5
         bar1_y,bar_2_y = 215., 215.
+     elif not (circle_y<=300 and circle_y>=200) : speed_x = -speed_x
     elif circle_x > 620.:
+      if circle_y<=300 and circle_y>=200:
         bar1_score += 1
         circle_x, circle_y = 307.5, 232.5
         bar1_y, bar2_y = 215., 215.
+      elif not (circle_y<=300 and circle_y>=200): speed_x = -speed_x  
     if circle_y <= 10.:
         speed_y = -speed_y
         circle_y = 10.
